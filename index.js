@@ -1,13 +1,9 @@
-// SPDX-License-Identifier: 0BSD
-
 const doh = 'https://security.cloudflare-dns.com/dns-query'
 const dohjson = 'https://security.cloudflare-dns.com/dns-query'
 const contype = 'application/dns-message'
 const jstontype = 'application/dns-json'
 const path = '/dns-query'; // default allow all, must start with '/' if specified, eg. "/dns-query"
-const r404 = new Response("Not Found", {status: 404});
 
-// developers.cloudflare.com/workers/runtime-apis/fetch-event/#syntax-module-worker
 export default {
     async fetch(r, env, ctx) {
         return handleRequest(r);
@@ -15,13 +11,12 @@ export default {
 };
 
 async function handleRequest(request) {
-    // when res is a Promise<Response>, it reduces billed wall-time
-    // blog.cloudflare.com/workers-optimization-reduces-your-bill
+    const r404 = new Response("Not Found", {status: 404});
     let res = r404;
     const { method, headers, url } = request
     const {searchParams, pathname} = new URL(url)
     
-    //Check path
+    // Check path
     if (!pathname.startsWith(path)) {
         return r404;
     }
@@ -45,7 +40,7 @@ async function handleRequest(request) {
         });
     } else if (method === 'GET' && headers.get('Accept') === jstontype) {
         const search = new URL(url).search
-         res = fetch(dohjson + search, {
+        res = fetch(dohjson + search, {
             method: 'GET',
             headers: {
                 'Accept': jstontype,
