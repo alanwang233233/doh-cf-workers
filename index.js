@@ -2,7 +2,7 @@ const doh = 'https://security.cloudflare-dns.com/dns-query'
 const dohjson = 'https://security.cloudflare-dns.com/dns-query'
 const contype = 'application/dns-message'
 const jstontype = 'application/dns-json'
-const path = '/dns-query'; // default allow all, must start with '/' if specified, eg. "/dns-query"
+const path = '/v1/dns-query/gv645g64g6r54b654v64feg6h'; // default allow all, must start with '/' if specified, eg. "/dns-query"
 
 export default {
     async fetch(r, env, ctx) {
